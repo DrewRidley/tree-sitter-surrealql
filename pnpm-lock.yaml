@@ -11,6 +11,9 @@ importers:
       nan:
         specifier: ^2.22.0
         version: 2.22.0
+      tree-sitter:
+        specifier: ^0.22.4
+        version: 0.22.4
     devDependencies:
       tree-sitter-cli:
         specifier: ^0.20.8
@@ -21,12 +24,32 @@ packages:
   nan@2.22.0:
     resolution: {integrity: sha512-nbajikzWTMwsW+eSsNm3QwlOs7het9gGJU5dDZzRTQGk03vyBOauxgI4VakDzE0PtsGTmXPsXTbbjVhRwR5mpw==}
 
+  node-addon-api@8.3.0:
+    resolution: {integrity: sha512-8VOpLHFrOQlAH+qA0ZzuGRlALRA6/LVh8QJldbrC4DY0hXoMP0l4Acq8TzFC018HztWiRqyCEj2aTWY2UvnJUg==}
+    engines: {node: ^18 || ^20 || >= 21}
+
+  node-gyp-build@4.8.4:
+    resolution: {integrity: sha512-LA4ZjwlnUblHVgq0oBF3Jl/6h/Nvs5fzBLwdEF4nuxnFdsfajde4WfxtJr3CaiH+F6ewcIB/q4jQ4UzPyid+CQ==}
+    hasBin: true
+
   tree-sitter-cli@0.20.8:
     resolution: {integrity: sha512-XjTcS3wdTy/2cc/ptMLc/WRyOLECRYcMTrSWyhZnj1oGSOWbHLTklgsgRICU3cPfb0vy+oZCC33M43u6R1HSCA==}
     hasBin: true
+
+  tree-sitter@0.22.4:
+    resolution: {integrity: sha512-usbHZP9/oxNsUY65MQUsduGRqDHQOou1cagUSwjhoSYAmSahjQDAVsh9s+SlZkn8X8+O1FULRGwHu7AFP3kjzg==}
 
 snapshots:
 
   nan@2.22.0: {}
 
+  node-addon-api@8.3.0: {}
+
+  node-gyp-build@4.8.4: {}
+
   tree-sitter-cli@0.20.8: {}
+
+  tree-sitter@0.22.4:
+    dependencies:
+      node-addon-api: 8.3.0
+      node-gyp-build: 4.8.4

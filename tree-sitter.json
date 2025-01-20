@@ -1,0 +1,29 @@
+{
+  "grammars": [
+    {
+      "name": "surrealql",
+      "camelcase": "Surrealql",
+      "scope": "source.surrealql",
+      "path": ".",
+      "file-types": [
+        "surql"
+      ]
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "license": "ISC",
+    "description": "",
+    "links": {
+      "repository": "https://github.com/tree-sitter/tree-sitter-surrealql"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true
+  }
+}
