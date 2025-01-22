@@ -4,20 +4,21 @@ module.exports = grammar({
   conflicts: ($) => [
     [$.select_list, $.select_item],
     [$.dotted_identifier, $.identifier],
+    [$.field_reference, $.function_call],
   ],
 
   extras: ($) => [/\s+/, $.comment],
 
   precedences: ($) => [
     [
-      "primary", // Highest precedence: identifiers, literals
-      "postfix", // Function calls, field access
-      "unary", // Unary operators
-      "multiplicative", // *, /, %
-      "additive", // +, -
-      "comparative", // =, !=, >, <, etc.
+      "primary",
+      "postfix",
+      "unary",
+      "multiplicative",
+      "additive",
+      "comparative",
       "and",
-      "or", // Lowest precedence
+      "or",
     ],
     ["field", "edge"],
     ["expression", "clause"],
@@ -33,7 +34,7 @@ module.exports = grammar({
       seq(
         choice(
           $.select_statement,
-          // Future: $.create_statement,
+          $.create_statement,
           // Future: $.update_statement,
           // Future: $.delete_statement,
           // Future: $.relate_statement,
@@ -70,17 +71,21 @@ module.exports = grammar({
     identifier: ($) =>
       prec(
         "primary",
-        choice($.raw_identifier, $.dotted_identifier, $.record_id),
+        choice(
+          $.raw_identifier,
+          $.dotted_identifier,
+          // Record ID moved to separate rule with lower precedence
+          prec.left(-1, $.record_id),
+        ),
       ),
 
+    variable_name: ($) => seq("$", $.raw_identifier),
+
     record_id: ($) =>
-      prec(
-        "primary",
-        seq(
-          $.raw_identifier,
-          ":",
-          choice($.raw_identifier, $.number, $.string),
-        ),
+      seq(
+        $.raw_identifier,
+        ":",
+        choice($.raw_identifier, $.number, $.string, $.variable_name),
       ),
 
     // ==========================================
@@ -124,6 +129,15 @@ module.exports = grammar({
 
     duration: ($) =>
       seq($.number, choice("ns", "µs", "ms", "s", "m", "h", "d", "w", "y")),
+
+    // Data Structures
+    object: ($) => seq("{", commaSep($.object_property), "}"),
+    object_property: ($) =>
+      seq(choice($.object_key, $.string), ":", $.expression),
+    object_key: ($) =>
+      prec.left("primary", choice($.raw_identifier, $.dotted_identifier)),
+
+    array: ($) => seq("[", commaSep($.expression), "]"),
 
     // ==========================================
     // Functions and Calls
@@ -199,6 +213,9 @@ module.exports = grammar({
           $.string,
           $.number,
           $.duration,
+          $.variable_name,
+          $.object,
+          $.array,
           seq("(", $.expression, ")"),
         ),
       ),
@@ -288,6 +305,9 @@ module.exports = grammar({
 
     where_clause: ($) => seq("WHERE", $.expression),
 
+    return_clause: ($) =>
+      seq("RETURN", choice("BEFORE", "AFTER", "DIFF", $.select_list)),
+
     split_clause: ($) => seq("SPLIT", $.field_reference),
 
     omit_clause: ($) => seq("OMIT", commaSep1($.omit_item)),
@@ -341,9 +361,54 @@ module.exports = grammar({
     parallel_clause: ($) => "PARALLEL",
     tempfiles_clause: ($) => "TEMPFILES",
     explain_clause: ($) => seq("EXPLAIN", optional("FULL")),
+
+    // CREATE Statement
+    create_statement: ($) =>
+      seq(
+        "CREATE",
+        optional("ONLY"),
+        commaSep1(choice($.identifier, $.variable_name, $.record_id)),
+        choice($.content_clause, $.set_clause, $.unset_clause),
+        optional($.return_clause),
+        optional($.timeout_clause),
+        optional($.parallel_clause),
+      ),
+
+    // UPDATE Statement
+    update_statement: ($) =>
+      seq(
+        "UPDATE",
+        optional("ONLY"),
+        commaSep1($.expression),
+        optional(
+          choice(
+            $.content_clause,
+            $.merge_clause,
+            $.patch_clause,
+            $.set_clause,
+            $.unset_clause,
+          ),
+        ),
+        optional($.where_clause),
+        optional($.return_clause),
+        optional($.timeout_clause),
+        optional($.parallel_clause),
+      ),
+
+    // Data Manipulation Clauses
+    content_clause: ($) => seq("CONTENT", $.object),
+    merge_clause: ($) => seq("MERGE", $.object),
+    patch_clause: ($) => seq("PATCH", $.array),
+    set_clause: ($) => seq("SET", commaSep1($.field_assignment)),
+    unset_clause: ($) => seq("UNSET", commaSep1($.field_assignment)),
+    field_assignment: ($) => seq($.field_reference, "=", $.expression),
   },
 });
 
 function commaSep1(rule) {
   return seq(rule, repeat(seq(",", rule)));
+}
+
+function commaSep(rule) {
+  return optional(commaSep1(rule));
 }

@@ -1137,4 +1137,4 @@
           (field_reference [102, 56] - [102, 62]
             (identifier [102, 56] - [102, 62]
               (raw_identifier [102, 56] - [102, 62]))))))))
-tests/select.surql	   0.29 ms	 10222 bytes/ms	(MISSING raw_identifier [41, 33] - [41, 33])
+tests/select.surql	   0.79 ms	  3809 bytes/ms	(MISSING raw_identifier [41, 33] - [41, 33])

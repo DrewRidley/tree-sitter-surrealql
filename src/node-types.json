@@ -45,6 +45,21 @@
     }
   },
   {
+    "type": "array",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "clause",
     "named": true,
     "fields": {},
@@ -128,6 +143,68 @@
       "types": [
         {
           "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "content_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "object",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "create_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "content_clause",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "parallel_clause",
+          "named": true
+        },
+        {
+          "type": "record_id",
+          "named": true
+        },
+        {
+          "type": "return_clause",
+          "named": true
+        },
+        {
+          "type": "set_clause",
+          "named": true
+        },
+        {
+          "type": "timeout_clause",
+          "named": true
+        },
+        {
+          "type": "unset_clause",
+          "named": true
+        },
+        {
+          "type": "variable_name",
           "named": true
         }
       ]
@@ -270,6 +347,25 @@
         },
         {
           "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "field_assignment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "field_reference",
           "named": true
         }
       ]
@@ -424,6 +520,63 @@
     }
   },
   {
+    "type": "object",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "object_property",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "object_key",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_identifier",
+          "named": true
+        },
+        {
+          "type": "raw_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "object_property",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "object_key",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "omit_clause",
     "named": true,
     "fields": {},
@@ -521,6 +674,25 @@
         {
           "type": "string",
           "named": true
+        },
+        {
+          "type": "variable_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "return_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "select_list",
+          "named": true
         }
       ]
     }
@@ -607,6 +779,21 @@
     }
   },
   {
+    "type": "set_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "field_assignment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "source_file",
     "named": true,
     "root": true,
@@ -665,6 +852,10 @@
       "required": true,
       "types": [
         {
+          "type": "create_statement",
+          "named": true
+        },
+        {
           "type": "expression",
           "named": true
         },
@@ -719,6 +910,21 @@
     }
   },
   {
+    "type": "unset_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "field_assignment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "value_expr",
     "named": true,
     "fields": {},
@@ -726,6 +932,10 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "array",
+          "named": true
+        },
         {
           "type": "duration",
           "named": true
@@ -751,7 +961,30 @@
           "named": true
         },
         {
+          "type": "object",
+          "named": true
+        },
+        {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "variable_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "variable_name",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "raw_identifier",
           "named": true
         }
       ]
@@ -793,6 +1026,10 @@
   },
   {
     "type": "\"",
+    "named": false
+  },
+  {
+    "type": "$",
     "named": false
   },
   {
@@ -880,6 +1117,10 @@
     "named": false
   },
   {
+    "type": "AFTER",
+    "named": false
+  },
+  {
     "type": "ALL",
     "named": false
   },
@@ -900,6 +1141,10 @@
     "named": false
   },
   {
+    "type": "BEFORE",
+    "named": false
+  },
+  {
     "type": "BY",
     "named": false
   },
@@ -912,7 +1157,19 @@
     "named": false
   },
   {
+    "type": "CONTENT",
+    "named": false
+  },
+  {
+    "type": "CREATE",
+    "named": false
+  },
+  {
     "type": "DESC",
+    "named": false
+  },
+  {
+    "type": "DIFF",
     "named": false
   },
   {
@@ -976,7 +1233,15 @@
     "named": false
   },
   {
+    "type": "RETURN",
+    "named": false
+  },
+  {
     "type": "SELECT",
+    "named": false
+  },
+  {
+    "type": "SET",
     "named": false
   },
   {
@@ -989,6 +1254,10 @@
   },
   {
     "type": "TIMEOUT",
+    "named": false
+  },
+  {
+    "type": "UNSET",
     "named": false
   },
   {
